@@ -20,20 +20,20 @@ router.post("/post", async (req, res) => {
 
     //Prevents duplicate users from being created and more secure
     const existUser = await User.findOne({ userName });
-    if (!existUser) {
-      return res.status(400).json({ message: "Invalid username or password" });
-    }
 
-    const isMatch = await bcrypt.compare(password, existUser.password);
+    if (existUser) {
+      // If the user exists, verify the password
+      const isMatch = await bcrypt.compare(password, existUser.password);
+      if (!isMatch) {
+        return res
+          .status(400)
+          .json({ message: "Invalid username or password" });
+      }
 
-    if (!isMatch) {
-      return res.status(400).json({ message: "Invalid username or password" });
-    }
-
-    // const checkUser = await User.findOne({ userName, password });
-    if (isMatch) {
-      return res.status(409).json({
-        message: "User already exists",
+      // If password matches, we don’t want to create a new user, just respond
+      return res.status(200).json({
+        message: "User already exists and authenticated successfully",
+        user: existUser,
       });
     }
 
@@ -42,11 +42,11 @@ router.post("/post", async (req, res) => {
     const hashedPass = await bcrypt.hash(password, saltRounds);
 
     //Saves the creation of a new user
-    const user = new User({ userName, password: hashedPass });
-    await user.save();
+    const newUser = new User({ userName, password: hashedPass });
+    await newUser.save();
     return res.status(201).json({
       message: "User created successfully",
-      user,
+      user: newUser,
     });
   } catch (error) {
     console.log(error);

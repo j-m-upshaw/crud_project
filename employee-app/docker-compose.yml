@@ -1,0 +1,20 @@
+version: "3.8"  # Slight bump, still valid and modern
+
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    restart: unless-stopped
+
+  web:
+    build: .
+    container_name: employee-app
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mongo
+    environment:
+      - NODE_LOCAL_PORT=8082
+    restart: unless-stopped
