@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
+//for admins only
 const userSchema = new Schema(
   {
     userName: {
