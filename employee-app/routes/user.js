@@ -4,7 +4,8 @@ const User = require("../models/user");
 //to allow hashing of passwords
 const bcrypt = require("bcrypt");
 
-router.post("/post", async (req, res) => {
+//Works properly
+router.post("/user", async (req, res) => {
   try {
     const { userName, password } = req.body;
 

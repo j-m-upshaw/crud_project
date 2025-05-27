@@ -6,14 +6,29 @@
 
 - create a new terminal to test routes since the first terminal is running the docker and database
 
-- example of creating a employee using a curl POST command
-  - Invoke-RestMethod -Uri <http://localhost:8082/post> `
-    -Method POST `
-    -Headers @{ "Content-Type" = "application/json" } `
-    -Body (@{ userName = "Apple Bees"; password = "admin9876" } | ConvertTo-Json)
+- example of creating a employee using a Invoked-RestMethod command
+  - Invoke-RestMethod -Uri <http://localhost:8082/user> -Method POST -Headers @{ "Content-Type" = "application/json" } ` -Body (@{ userName = "Apple Bees"; password = "admin9876" } | ConvertTo-Json)
 
 
 - to check if done properly
     1. docker exec -it <container-name> mongosh
     2. use docker-node-mongo
     3. db.users.find().pretty()
+
+## User Commands
+
+User Creation:
+`
+Invoke-RestMethod -Uri <http://localhost:8082/user> -Method POST -Headers @{ "Content-Type" = "application/json" } ` -Body (@{ userName = "Apple Bees"; password = "admin9876" } | ConvertTo-Json)
+`
+
+## Department Commands
+
+Department Creation:
+  Invoke-RestMethod -Uri "<http://localhost:8082/department/newDep>" `
+  >> -Method POST `
+  >> -Headers @{ "Content-Type" = "application/json" } `
+  >> -Body (@{ name = "Surgery" } | ConvertTo-Json)
+
+Retrieve all Departments:
+  Invoke-RestMethod -Uri "<http://localhost:8082/department/allDep>" -Method GET
