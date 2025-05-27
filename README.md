@@ -25,10 +25,14 @@ Invoke-RestMethod -Uri <http://localhost:8082/user> -Method POST -Headers @{ "Co
 ## Department Commands
 
 Department Creation:
-  Invoke-RestMethod -Uri "<http://localhost:8082/department/newDep>" `
+`
+Invoke-RestMethod -Uri "<http://localhost:8082/department/newDep>" `
   >> -Method POST `
   >> -Headers @{ "Content-Type" = "application/json" } `
   >> -Body (@{ name = "Surgery" } | ConvertTo-Json)
+`
 
 Retrieve all Departments:
-  Invoke-RestMethod -Uri "<http://localhost:8082/department/allDep>" -Method GET
+`
+Invoke-RestMethod -Uri "<http://localhost:8082/department/allDep>" -Method GET
+`
