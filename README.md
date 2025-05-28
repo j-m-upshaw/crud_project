@@ -7,7 +7,9 @@
 - create a new terminal to test routes since the first terminal is running the docker and database
 
 - example of creating a employee using a Invoked-RestMethod command
-  - Invoke-RestMethod -Uri <http://localhost:8082/user> -Method POST -Headers @{ "Content-Type" = "application/json" } ` -Body (@{ userName = "Apple Bees"; password = "admin9876" } | ConvertTo-Json)
+```
+  Invoke-RestMethod -Uri "http://localhost:8082/user" -Method POST -Headers @{ "Content-Type" = "application/json" } ` -Body (@{ userName = "Apple Bees"; password = "admin9876" } | ConvertTo-Json)
+```
 
 
 - to check if done properly
@@ -17,22 +19,27 @@
 
 ## User Commands
 
-User Creation:
+### User Creation:
 `
-Invoke-RestMethod -Uri <http://localhost:8082/user> -Method POST -Headers @{ "Content-Type" = "application/json" } ` -Body (@{ userName = "Apple Bees"; password = "admin9876" } | ConvertTo-Json)
+Invoke-RestMethod -Uri "http://localhost:8082/user" -Method POST -Headers @{ "Content-Type" = "application/json" } ` -Body (@{ userName = "Apple Bees"; password = "admin9876" } | ConvertTo-Json)
 `
 
 ## Department Commands
 
-Department Creation:
+### Department Creation:
 ```
-Invoke-RestMethod -Uri "<http://localhost:8082/department/newDep>" `
+Invoke-RestMethod -Uri "http://localhost:8082/department/newDep" `
   >> -Method POST `
   >> -Headers @{ "Content-Type" = "application/json" } `
   >> -Body (@{ name = "Surgery" } | ConvertTo-Json)
 ```
 
-Retrieve all Departments:
+### Retrieve all Departments:
 `
-Invoke-RestMethod -Uri "<http://localhost:8082/department/allDep>" -Method GET
+Invoke-RestMethod -Uri "http://localhost:8082/department/allDep" -Method GET
+`
+
+### Delete Department
+`
+Invoke-RestMethod -Uri "http://localhost:8082/department/deleteDep/Apples" -Method DELETE
 `

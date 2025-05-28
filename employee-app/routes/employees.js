@@ -14,16 +14,6 @@ router.post("/newEmp", async (req, res) => {
   }
 });
 
-// Get all employees within a certain department
-router.get("/depEmps", async (req, res) => {
-  try {
-    const employees = await Employee.find().populate("department");
-    res.json(employees);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
 // Delete Employee
 router.delete("/deleteEmp/:id", async (req, res) => {
   try {
