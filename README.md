@@ -39,7 +39,48 @@ Invoke-RestMethod -Uri "http://localhost:8082/department/newDep" `
 Invoke-RestMethod -Uri "http://localhost:8082/department/allDep" -Method GET
 `
 
+### Get all employees in a Department:
+`
+Invoke-RestMethod -Uri "http://localhost:8082/department/getDep/Surgery" -Method GET
+`
+
 ### Delete Department
 `
 Invoke-RestMethod -Uri "http://localhost:8082/department/deleteDep/Apples" -Method DELETE
 `
+
+## Employee Commands
+
+### Employee Creation:
+```
+Invoke-RestMethod -Uri "http://localhost:8082/employee/newEmp" `
+>> -Method POST `
+>> -Headers @{ "Content-Type" = "application/json" } `
+>> -Body (@{
+>> firstName = "Lisa"
+>> lastName = "Harris"
+>> department = "Orthodontics"
+>> } | ConvertTo-Json)
+```
+
+### Get all employees:
+`
+Invoke-RestMethod -Uri "http://localhost:8082/employee/allEmp" -Method GET
+`
+
+### Get info of a employee
+`
+Invoke-RestMethod -Uri "http://localhost:8082/employee/getEmp/Tom" -Method GET
+`
+
+### Delete a employee
+```
+Invoke-RestMethod -Uri "http://localhost:8082/employee/deleteEmp/Tom/Jerry" `
+>> -Method DELETE
+```
+
+### Update employee department
+```
+Invoke-RestMethod -Uri "http://localhost:8082/employee/updateEmp/Tom/Jerry/Surgery" `
+>> -Method PATCH
+```
