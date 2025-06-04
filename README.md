@@ -17,6 +17,8 @@
     2. use docker-node-mongo
     3. db.users.find().pretty()
 
+- to use with React use "http://localhost:3000/" after running the 'docker-compose up --build'
+
 ## User Commands
 
 ### User Creation:
