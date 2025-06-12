@@ -8,7 +8,12 @@
 
 - example of creating a employee using a Invoked-RestMethod command
 ```
-  Invoke-RestMethod -Uri "http://localhost:8082/user" -Method POST -Headers @{ "Content-Type" = "application/json" } ` -Body (@{ userName = "Apple Bees"; password = "admin9876" } | ConvertTo-Json)
+  Invoke-RestMethod -Uri "http://localhost:8082/auth/register" -Method POST `
+>>   -Headers @{"Content-Type"="application/json"} `
+>>   -Body (@{
+>>     userName = "testuser"
+>>     password = "testpass"
+>>   } | ConvertTo-Json)
 ```
 
 
@@ -22,9 +27,24 @@
 ## User Commands
 
 ### User Creation:
-`
-Invoke-RestMethod -Uri "http://localhost:8082/user" -Method POST -Headers @{ "Content-Type" = "application/json" } ` -Body (@{ userName = "Apple Bees"; password = "admin9876" } | ConvertTo-Json)
-`
+```
+Invoke-RestMethod -Uri "http://localhost:8082/auth/register" -Method POST `
+>> -Headers @{"Content-Type"="application/json"} `
+>> -Body (@{
+>>     userName = "testuser"
+>>     password = "testpass"
+>>   } | ConvertTo-Json)
+```
+
+### User Log In:
+```
+Invoke-RestMethod -Uri "http://localhost:8082/auth/login" -Method POST `
+>>   -Headers @{"Content-Type"="application/json"} `
+>>   -Body (@{
+>>     userName = "testuser"
+>>     password = "testpass"
+>>   } | ConvertTo-Json)
+```
 
 ## Department Commands
 
