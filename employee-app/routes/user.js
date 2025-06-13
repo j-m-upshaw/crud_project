@@ -7,20 +7,20 @@ const bcrypt = require("bcrypt");
 //Works properly
 router.post("/login", async (req, res) => {
   try {
-    const { userName, password } = req.body;
+    const { email, password } = req.body;
 
     //Shortcut for Admins
-    if (userName === "admin" && password === "admin") {
+    if (email === "admin" && password === "admin") {
       return res.status(200).json("Welcome to the admin page");
     }
 
     //Checking for any missing input
-    if (!(userName && password)) {
-      return res.status(200).json("Please enter your username and password");
+    if (!(email && password)) {
+      return res.status(200).json("Please enter your email and password");
     }
 
     //Prevents duplicate users from being created and more secure
-    const existUser = await User.findOne({ userName });
+    const existUser = await User.findOne({ email });
 
     //If the userName doesn't exist
     if (!existUser) {
@@ -47,15 +47,24 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
-    const { userName, password } = req.body;
+    const { userName, email, password } = req.body;
 
-    if (!(userName && password)) {
+    if (!(email && password)) {
       return res.status(200).json("Please enter your username and password");
     }
 
-    const existUser = await User.findOne({ userName });
+    const existUser = await User.findOne({ email });
     if (existUser) {
       return res.status(400).json("Username already exists");
+    }
+
+    const isValidEmail = (email) => {
+      const regex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+      return regex.test(email);
+    };
+
+    if (!isValidEmail(email)) {
+      return res.status(400).json("Please enter a valid email address");
     }
 
     //Hashes the password before saving the new user
@@ -63,7 +72,7 @@ router.post("/register", async (req, res) => {
     const hashedPass = await bcrypt.hash(password, saltRounds);
 
     //Saves the creation of a new user
-    const newUser = new User({ userName, password: hashedPass });
+    const newUser = new User({ userName, email, password: hashedPass });
     await newUser.save();
 
     return res.status(201).json({

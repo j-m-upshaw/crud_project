@@ -6,17 +6,6 @@
 
 - create a new terminal to test routes since the first terminal is running the docker and database
 
-- example of creating a employee using a Invoked-RestMethod command
-```
-  Invoke-RestMethod -Uri "http://localhost:8082/auth/register" -Method POST `
->>   -Headers @{"Content-Type"="application/json"} `
->>   -Body (@{
->>     userName = "testuser"
->>     password = "testpass"
->>   } | ConvertTo-Json)
-```
-
-
 - to check if done properly
     1. docker exec -it <container-name> mongosh
     2. use docker-node-mongo
@@ -28,22 +17,37 @@
 
 ### User Creation:
 ```
-Invoke-RestMethod -Uri "http://localhost:8082/auth/register" -Method POST `
->> -Headers @{"Content-Type"="application/json"} `
->> -Body (@{
->>     userName = "testuser"
->>     password = "testpass"
->>   } | ConvertTo-Json)
+Invoke-WebRequest -Uri "http://localhost:8082/auth/register" `
+  -Method POST `
+  -Headers @{"Content-Type"="application/json"} `
+  -Body (@{
+    userName = "johndoe"
+    email    = "johndoe@example.com"
+    password = "securePassword123"
+  } | ConvertTo-Json -Depth 2) | Select-Object -ExpandProperty Content
+
 ```
 
 ### User Log In:
 ```
-Invoke-RestMethod -Uri "http://localhost:8082/auth/login" -Method POST `
->>   -Headers @{"Content-Type"="application/json"} `
->>   -Body (@{
->>     userName = "testuser"
->>     password = "testpass"
->>   } | ConvertTo-Json)
+Invoke-WebRequest -Uri "http://localhost:8082/auth/login" `
+  -Method POST `
+  -Headers @{"Content-Type"="application/json"} `
+  -Body (@{
+    email    = "johndoe@example.com"
+    password = "securePassword123"
+  } | ConvertTo-Json -Depth 2) | Select-Object -ExpandProperty Content
+```
+
+### Temp Admin Shortcut Log In:
+```
+Invoke-WebRequest -Uri "http://localhost:8082/auth/login" `
+  -Method POST `
+  -Headers @{"Content-Type"="application/json"} `
+  -Body (@{
+    email    = "admin"
+    password = "admin"
+  } | ConvertTo-Json -Depth 2) | Select-Object -ExpandProperty Content
 ```
 
 ## Department Commands
