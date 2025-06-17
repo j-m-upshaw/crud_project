@@ -1,1 +1,23 @@
 @import "../../vars.css";
+
+.title {
+  color: var(--color-primary);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 300px;
+  margin: 20px auto;
+}
+
+.form > input {
+  padding: 10px;
+  font-size: 16px;
+}
+
+.container {
+  padding: 70px 0;
+  text-align: center;
+}

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import styles from "./Login.module.css";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [isRegistering, setIsRegistering] = useState(false);
@@ -10,6 +11,8 @@ function Login() {
     reset,
     formState: { errors },
   } = useForm();
+
+  const navToDashboard = useNavigate();
 
   const onSubmit = async (data) => {
     //dynamically chooses between these two routes depending on the button used
@@ -34,8 +37,9 @@ function Login() {
         setIsRegistering(false);
         reset();
       } else {
-        alert("Login successful!");
+        // alert("Login successful!");
         console.log("User Data:", result.user);
+        navToDashboard("/dashboard");
       }
     } catch (err) {
       console.error("Error:", err);
@@ -45,64 +49,70 @@ function Login() {
 
   return (
     <>
-      <h2>{isRegistering ? "Register" : "Login"} Form</h2>
+      <div className={styles.container}>
+        <h2 className={styles.title}>
+          {isRegistering ? "Register" : "Login"} Form
+        </h2>
 
-      <form className="App" onSubmit={handleSubmit(onSubmit)}>
-        {isRegistering && (
-          <>
-            <input
-              type="text"
-              {...register("userName", { required: true })}
-              placeholder="Username"
-            />
-            {errors.userName && (
-              <span style={{ color: "red" }}>*Username* is mandatory</span>
-            )}
-          </>
-        )}
+        <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+          {isRegistering && (
+            <>
+              <input
+                type="text"
+                {...register("userName", { required: true })}
+                placeholder="Username"
+              />
+              {errors.userName && (
+                <span style={{ color: "red" }}>*Username* is mandatory</span>
+              )}
+            </>
+          )}
 
-        <input
-          type="email"
-          {...register("email", {
-            required: true,
-            pattern: {
-              value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-              message: "Invalid email format",
-            },
-          })}
-          placeholder="Email"
-        />
-        {errors.email && (
-          <span style={{ color: "red" }}>
-            {errors.email.message || "*Email* is mandatory"}
-          </span>
-        )}
+          <input
+            type="email"
+            {...register("email", {
+              required: true,
+              pattern: {
+                value: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
+                message: "Invalid email format",
+              },
+            })}
+            placeholder="example@gmail.com"
+          />
+          {errors.email && (
+            <span style={{ color: "red" }}>
+              {errors.email.message || "*Email* is mandatory"}
+            </span>
+          )}
 
-        <input
-          type="password"
-          {...register("password", { required: true })}
-          placeholder="Password"
-        />
-        {errors.password && (
-          <span style={{ color: "red" }}>*Password* is mandatory</span>
-        )}
+          <input
+            type="password"
+            {...register("password", { required: true })}
+            placeholder="Password"
+          />
+          {errors.password && (
+            <span style={{ color: "red" }}>*Password* is mandatory</span>
+          )}
 
-        <input
-          type="submit"
-          style={{ backgroundColor: "#a1eafb", cursor: "pointer" }}
-          value={isRegistering ? "Create Account" : "Login"}
-        />
-      </form>
+          <input
+            type="submit"
+            style={{ backgroundColor: "#a1eafb", cursor: "pointer" }}
+            value={isRegistering ? "Create Account" : "Login"}
+          />
+        </form>
 
-      <button
-        style={{ marginTop: "1rem", cursor: "pointer" }}
-        onClick={() => {
-          setIsRegistering((prev) => !prev);
-          reset(); // optional: clears form when switching
-        }}
-      >
-        {isRegistering ? "Already have an account? Login" : "Create an account"}
-      </button>
+        <button
+          style={{ marginTop: "1rem", cursor: "pointer" }}
+          onClick={() => {
+            setIsRegistering((prev) => !prev);
+            reset(); // optional: clears form when switching
+          }}
+        >
+          {isRegistering
+            ? "Already have an account? Login"
+            : "Create an account"}
+        </button>
+      </div>
     </>
   );
 }
